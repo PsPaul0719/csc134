@@ -17,4 +17,5 @@ double total_cost = num_items * cost_per;
 cout << "Buying them all wil cost: $ " << total_cost << endl;
 cout << "Thanks for shopping with us!" << endl;
 return 0;
+
 }
