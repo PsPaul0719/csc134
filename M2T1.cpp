@@ -11,7 +11,7 @@ using namespace std;
 int main() {
 
  // Delcare our variables ("The Truth")
-string item = "Hats";
+string item = "Apples";
 double cost_per = 0.99;
 int amount = 20;
  // variable for user input 
