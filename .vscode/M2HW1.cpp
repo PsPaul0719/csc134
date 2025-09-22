@@ -6,32 +6,79 @@ Date:
 */
 
 #include <iostream>
-#include <iomanip>
-using namespace std; 
+#include <string>
+using namespace std;
 
+class BankAccount {
+private:
+    string name;
+    string account_number;
+    double balance;
+
+public:
+    // Constructor to initialize the account
+    BankAccount(string account_holder, string acc_number, double starting_balance) {
+        name = account_holder;
+        account_number = acc_number;
+        balance = starting_balance;
+    }
+
+    // Deposit method
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            cout << "Deposited $" << amount << ". New balance: $" << balance << endl;
+        } else {
+            cout << "Deposit amount must be greater than zero." << endl;
+        }
+    }
+
+    // Withdraw method
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            cout << "Withdrew $" << amount << ". New balance: $" << balance << endl;
+        } else {
+            cout << "Insufficient funds." << endl;
+        }
+    }
+
+    // Display account details
+    void display_account_info() {
+        cout << "\nAccount Summary:" << endl;
+        cout << "Account Holder: " << name << endl;
+        cout << "Account Number: " << account_number << endl;
+        cout << "Final Balance: $" << balance << endl;
+    }
+};
 
 int main() {
-double starting_bal;
-double deposit;
-double withdrawal;
-double fin_bal;
-double title;
+    string name, account_number;
+    double starting_balance, deposit_amount, withdrawal_amount;
 
+    // Ask for user input
+    cout << "Enter your name: ";
+    getline(cin, name);
+    cout << "Enter your account number: ";
+    getline(cin, account_number);
+    cout << "Enter your starting account balance: $";
+    cin >> starting_balance;
 
-cout << "Please enter name:" << endl;
-cin >> title;
-cout << "Hello, " << title << ".";
-cout << "Enter your starting balence.";
-cin >> starting_bal;
-cout << "Enter your deposit:"; 
-cin >> deposit;
-cout << "Enter your widthdrawal:";
-cin >> withdrawal;
+    // Create BankAccount object
+    BankAccount account(name, account_number, starting_balance);
 
-double fin_bal = starting_bal + deposit - withdrawal;
+    // Ask for deposit amount
+    cout << "Enter the deposit amount: $";
+    cin >> deposit_amount;
+    account.deposit(deposit_amount);
 
-cout << setprecision(2) << fixed;
-cout << "Your final balence is" << fin_bal << endl;
+    // Ask for withdrawal amount
+    cout << "Enter the withdrawal amount: $";
+    cin >> withdrawal_amount;
+    account.withdraw(withdrawal_amount);
 
-return 0;
+    // Display account details
+    account.display_account_info();
+
+    return 0;
 }
