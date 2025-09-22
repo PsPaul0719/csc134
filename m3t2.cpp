@@ -1,5 +1,7 @@
 /*
-CSC
+CSC 134 
+spencep
+9/22/25
 */
 
 #include <iostream>
@@ -13,9 +15,7 @@ int roll(); // declare helper fucntion
 
 int main() {
 
-    //int num = roll();
-    //cout << num << endl;
-
+    
     int roll1;
     int roll2;
     int point; // if not win or lose
