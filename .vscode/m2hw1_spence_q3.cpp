@@ -27,7 +27,7 @@ int total_slices = pizza_order * pizza_slices; // Total avalible pizza slices
 
 int needed_slices = visitors_num * 3; // Every visitor gets 3 slices
 
-int left_overs = total_slices - needed_slices; // How many lsices are left over
+int left_overs = total_slices - needed_slices; // How many slices are left over
 
 if (left_overs >= 0) {
     cout << "There are " << left_overs << " slice(s) of pizza up for grabs!" << endl;
