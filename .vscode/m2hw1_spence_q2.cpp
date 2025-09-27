@@ -18,7 +18,7 @@ double volume;
 const double Cost_Per_Cubic_Foot = 0.3; // relates to cost
 const double Charge_Per_Cubic_Foot = 0.52; // relates to charge
 // Get the crate info 
-cout << "Welcome to the crate program." << endl;
+cout << "Welcome to the General Crates." << endl;
 cout << "Crate Length: ";
 cin >> length;
 cout << "Crate Width: ";
