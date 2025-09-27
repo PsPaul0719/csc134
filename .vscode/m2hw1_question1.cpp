@@ -2,7 +2,7 @@
 CSC 134
 M2HW1
 Paul Spence
-Date: 
+Date: 9/26/25
 */
 
 
@@ -50,6 +50,8 @@ void withdraw(double amount) {
 void display_info() {
     cout << "\nSummary:" << endl;
     cout << "Account Holder: " << name << endl;
+    cout << "Account Number: " << account_number << endl;
+    cout << "Finale Balance: $" << balance << endl;
     }
 
 };
