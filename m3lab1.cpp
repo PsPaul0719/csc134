@@ -17,14 +17,17 @@ void slain(); // you died
 
 int main() {
 
-    cout << "==================================" << endl;
-    cout << " This is a story of a tyrannical ruler.  " << endl;
-    cout << " They were belevied to have a heart of gold, " << endl; 
-    cout << " But that was traded for gold that would sit atop their head." << endl; 
-    cout << " Will they meet their demise?" << endl;
-    cout << "==================================" << endl; 
-return 0;
+    cout << "============================================" << endl;
+    cout << "This is a story of a tyrannical ruler.  " << endl;
+    cout << "They were belevied to have a heart of gold, " << endl; 
+    cout << "But that was traded for gold that" << endl;
+    cout << "would sit atop their head." << endl; 
+    cout << "Will they meet their demise?" << endl;
+    cout << "============================================" << endl; 
+    
 }
+
+{
 
 void home() {
 
@@ -36,8 +39,17 @@ void home() {
     cin >> choice;
 
     if (choice == 1) {
-        cout << "The man tells you the tale of this tyranical ruler."
-        cout << "'Our kingdom is under rule by "
+        cout << "The man tells you the tale of this tyranical ruler.";
+        cout << "'Our kingdom is under rule by ";
+
+    }
+
+    if (choice == 2){
+    cout << "Not Avalibale";
 
     }
 }
+
+
+
+return 0;
