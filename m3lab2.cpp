@@ -16,10 +16,10 @@ void combat();
 
 int main() {
 
-    letter_grader();
-// combat();
+    // letter_grader();
+    combat();
     return 0;
-
+    
 }
 
 
@@ -29,6 +29,7 @@ void letter_grader() {
     // respond with a letter grade 
     double num_grade;
     string letter_grade;
+
     //constants for grade breakpoints
     const double A_GRADE = 90;
     const double B_GRADE = 80;
@@ -60,3 +61,43 @@ void letter_grader() {
     cout << "A number grade of " << num_grade << " is: " << letter_grade;
     cout << endl << endl;
 }
+
+void combat() {
+
+    int attack_roll, attack_bonus, enemy_amror;
+    
+    
+
+    cout << "You are fighting a goblin." << endl;
+    cout << "Enter your attack bonus:";
+    cin >> attack_bonus;
+    cout << "Enemy armor class: ";
+    cin >> enemy_amror;
+
+
+    // Roll to hit
+    attack_roll = roll();
+    cout << "Roll: " << attack_roll << " + " << attack_bonus << " = " << attack_roll+attack_bonus << endl;
+    if (attack_roll + attack_bonus >= enemy_amror) {
+        cout << "HIT!" << endl;
+    }
+    else {
+        cout << "Miss!" << endl;
+    }
+    
+    // try again?
+    cout << "Again? (y/n): ";
+    string again;
+    cin >> again;
+    if (again == "y") {
+    // calls the function again 
+    combat();
+    }
+
+    int roll() {
+        const int SIDES = 20;
+        int my_roll;
+        my_roll = (rand() % SIDES) + 1;
+        return my_roll;
+    }
+}    
