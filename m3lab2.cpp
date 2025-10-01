@@ -16,8 +16,8 @@ void combat();
 
 int main() {
 
-    // letter_grader();
-    combat();
+    letter_grader();
+    //combat();
     return 0;
     
 }
@@ -66,7 +66,11 @@ void combat() {
 
     int attack_roll, attack_bonus, enemy_amror;
     
-    
+    //int roll() {
+        //const int SIDES = 20;
+        //int my_roll;
+        //my_roll = (rand() % SIDES) + 1;
+        //return my_roll;
 
     cout << "You are fighting a goblin." << endl;
     cout << "Enter your attack bonus:";
@@ -76,7 +80,7 @@ void combat() {
 
 
     // Roll to hit
-    attack_roll = roll();
+    //attack_roll = roll();
     cout << "Roll: " << attack_roll << " + " << attack_bonus << " = " << attack_roll+attack_bonus << endl;
     if (attack_roll + attack_bonus >= enemy_amror) {
         cout << "HIT!" << endl;
@@ -94,10 +98,6 @@ void combat() {
     combat();
     }
 
-    int roll() {
-        const int SIDES = 20;
-        int my_roll;
-        my_roll = (rand() % SIDES) + 1;
-        return my_roll;
+    
     }
-}    
+    
