@@ -1,63 +1,48 @@
 #include <iostream>
 using namespace std;
-// ========== FUNCTION PROTOTYPES ==========
-// Declare all your "rooms" up here
-void tavern(); // Starting location
-void forest(); // A possible path
-void castle(); // Another path
-void gameOver(); // An ending
-void victory(); // Another ending
-// ========== MAIN FUNCTION ==========
-int main()
-{
-cout << "==================================" << endl;
-cout << " WELCOME TO YOUR ADVENTURE " << endl;
-cout << "==================================" << endl;
-cout << endl;
-// Start the adventure!
-tavern();
-cout << "\n=== THE END ===" << endl;
-return 0;
+
+// Function to display the game introduction
+void showIntro() {
+    cout << "\n===========================================\n";
+    cout << "This is a story of a tyrannical ruler.  " << endl;
+    cout << "They were belevied to have a heart of gold, " << endl; 
+    cout << "But that was traded for gold that" << endl;
+    cout << "would sit atop their head." << endl; 
+    cout << "Will they meet their demise?" << endl;
+    cout << "===========================================\n\n";
+
 }
-// ========== LOCATION FUNCTIONS ==========
-// Each function is one "node" in your story
-void tavern()
-{
-cout << "\nYou wake up in a dusty tavern." << endl;
-cout << "The bartender says there's trouble in the kingdom." << endl;
-cout << "Will you help? (1 = Yes, 2 = No): ";
-int choice;
-cin >> choice;
-if (choice == 1)
-{
-cout << "\n'Brave soul! Head to the forest!'" << endl;
-forest(); // Go to forest function
+
+// Function for the first choice - the door
+void doorChoice() {
+    int choice;
+    
+    cout << "What do you do?\n";
+    cout << "1. Try to break down the door\n";
+    cout << "2. Search for a key\n";
+    cout << "Enter your choice (1 or 2): ";
+    cin >> choice;
+    cout << "\n";
+    
+    if (choice == 1) {
+        cout << "The man tells you the tale of this tyranical ruler.";
+        cout << "'Our kingdom is under rule by ";
+;
+    }
+    else if (choice == 2) {
+        cout << "Not Avalibale";
+    }
+    else {
+        cout << "That's not a valid choice. The guard catches you!\n";
+        cout << "GAME OVER!\n";
+    }
 }
-//Part 2: Building Your First Complete Path 📝
-//Let's complete the forest path together:
-else
-{
-cout << "\n'Coward! Get out of my tavern!'" << endl;
-gameOver(); // Go to game over
-}
-}
-void forest()
-{
-// TODO: Add your forest scene here!
-cout << "\n[Forest scene not yet written]" << endl;
-}
-void castle()
-{
-// TODO: Add your castle scene here!
-cout << "\n[Castle scene not yet written]" << endl;
-}
-void gameOver()
-{
-cout << "\n💀 GAME OVER 💀" << endl;
-cout << "Your adventure ends here." << endl;
-}
-void victory()
-{
-cout << "\n🏆 VICTORY! 🏆" << endl;
-cout << "You saved the kingdom!" << endl;
+
+int main() {
+    showIntro();
+    doorChoice();
+    
+    cout << "\nThanks for playing!\n";
+    
+    return 0;
 }
