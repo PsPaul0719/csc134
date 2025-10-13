@@ -1,0 +1,92 @@
+:: StoryTitle
+Tyrannical Ruler
+
+
+:: StoryData
+{
+  "ifid": "D674C58C-DEFA-4F70-B7EF-154D30622523",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "Start",
+  "zoom": 1
+}
+
+
+:: Are you trying to call me a coward? {"position":"650,225","size":"100,100"}
+
+
+
+:: Are you trying to gaslight me? {"position":"525,275","size":"100,100"}
+[PLACEHOLDER]
+
+
+:: End {"position":"25,275","size":"100,100"}
+Thank You For Playing!
+
+[[Play Again?|Start]]
+
+
+:: HearHimOut {"position":"400,25","size":"100,100"}
+The man tells you the tale of this tyrannical ruler.
+
+"Enslaved we have been, and for how much longer? Would you allow others to suffer while you are able? Surely your is not heart that hardened.
+
+[[I would, but i'm not able.]]
+
+[[Are you trying to gaslight me?]]
+
+
+:: Home {"position":"150,25","size":"100,100"}
+You open your front door to investigate, and find an old man who appears to be mumbling.
+
+Do you choose to write him off as crazy or hear him out?
+
+[[Hear him out|HearHimOut]]
+[[He's insane|Insane]]
+
+
+:: How can you help me? {"position":"825,25","size":"100,100"}
+[PLACEHOLDER]
+
+
+:: I don't have any spare change for you unc! {"position":"300,350","size":"100,100"}
+You told the Old Man you had no intrest in whatever he spoke of. You closed and locked your door, wondering what the Old Man was babbling about. Meanwhile, he traveled to another house, wondering what you meant by 'unc'. 
+
+(align:"=><=")+(box:"X=")[In]
+
+
+:: I would, but i'm not able. {"position":"650,25","size":"100,100"}
+You entertained the elder's idea.
+
+"I am well aware. Clearly, you are not able. But with my help, I can change that." 
+
+[[How can you help me?]]
+
+[[So, trying to say im not worthy?]]
+
+
+:: Insane {"position":"400,175","size":"100,100"}
+You start close the door to preserve your ingnorance. 
+However, your attempt to avoid the old man failed.
+
+"YOU THERE! Has your cowardess overcome your fighting spirit!?
+
+[[Are you trying to call me a coward?]]
+
+[[I don't have any spare change for you unc!]]
+
+
+:: So, trying to say im not worthy? {"position":"950,25","size":"100,100"}
+[PLACEHOLDER]
+
+
+:: Start {"position":"25,25","size":"100,100"}
+============================================
+This is a story of a tyrannical ruler.
+They were believed to have a heart of gold,
+But that was traded for gold that
+would sit atop their head.
+Will they meet their demise?
+============================================
+
+[[Begin your journey|Home]]
