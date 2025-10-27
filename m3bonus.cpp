@@ -5,13 +5,74 @@ Date: 10/1/25
 M3BONUS
 */
 
-
 #include <iostream>
-#include <cstdlib>  // For rand() and srand()
-#include <ctime>    // For time()
+#include <cstdlib>
+#include <ctime>
+#include <string>
 using namespace std;
 
-// Function to display the game menu
+// Structure to hold opponent data
+struct Opponent {
+    string name;
+    int health;
+    int aggressiveness;  // 0-100: higher = more likely to attack
+    int blockSkill;      // 0-100: higher = smarter blocking
+    string description;
+    bool hasSword;       // Special: sword attacks chip through blocks
+};
+
+// Function to display opponent selection menu
+int selectOpponent(Opponent opponents[], int numOpponents) {
+    cout << "\n==================================" << endl;
+    cout << "    SELECT YOUR OPPONENT" << endl;
+    cout << "==================================" << endl;
+    
+    for (int i = 0; i < numOpponents; i++) {
+        cout << "\n" << (i + 1) << ". " << opponents[i].name << endl;
+        cout << "   HP: " << opponents[i].health << endl;
+        cout << "   " << opponents[i].description << endl;
+    }
+    
+    int choice;
+    cout << "\nEnter your choice (1-" << numOpponents << "): ";
+    cin >> choice;
+    
+    // Validate input
+    while (choice < 1 || choice > numOpponents) {
+        cout << "Invalid choice! Enter (1-" << numOpponents << "): ";
+        cin >> choice;
+    }
+    
+    return choice - 1;  // Return array index
+}
+
+// Function to get computer's choice based on opponent personality
+int getComputerChoice(Opponent& opp, int playerHealth, int computerHealth) {
+    int random = rand() % 100;
+    
+    // If computer health is low, more likely to block or taunt to heal
+    if (computerHealth < 30) {
+        if (random < 40) {
+            return (rand() % 3) + 4;  // Block (4-6)
+        } else if (random < 50) {
+            return 7;  // Taunt for healing
+        }
+    }
+    
+    // Aggressive opponents attack more
+    if (random < opp.aggressiveness) {
+        return (rand() % 3) + 1;  // Attack (1-3)
+    } 
+    // High block skill means better blocking choices
+    else if (random < opp.aggressiveness + opp.blockSkill) {
+        return (rand() % 3) + 4;  // Block (4-6)
+    }
+    // Otherwise taunt
+    else {
+        return 7;
+    }
+}
+
 void displayMenu() {
     cout << "\n=== CHOOSE YOUR MOVE ===" << endl;
     cout << "1. High Attack (30 damage)" << endl;
@@ -24,12 +85,6 @@ void displayMenu() {
     cout << "Enter choice (1-7): ";
 }
 
-// Function to get the computer's random choice
-int getComputerChoice() {
-    return (rand() % 7) + 1;  // Random number between 1 and 7
-}
-
-// Function to display what move was chosen
 void displayMove(int choice, string player) {
     cout << player << " chose: ";
     
@@ -51,17 +106,15 @@ void displayMove(int choice, string player) {
     cout << endl;
 }
 
-// Function to resolve combat and return damage dealt to each player
 void resolveCombat(int playerChoice, int computerChoice, int& playerDamage, int& computerDamage, 
-                   int& playerHealth, int& computerHealth, int& playerBuff, int& computerBuff) {
-    // Reset damage to 0 each round
+                   int& playerHealth, int& computerHealth, int& playerBuff, int& computerBuff, bool opponentHasSword) {
     playerDamage = 0;
     computerDamage = 0;
     
     bool playerUsedAttack = false;
     bool computerUsedAttack = false;
     
-    // BOTH TAUNTING - Special case!
+    // BOTH TAUNTING
     if (playerChoice == 7 && computerChoice == 7) {
         cout << "** Both fighters TAUNT each other! Damage buffs activated! **" << endl;
         playerBuff = 15;
@@ -73,21 +126,17 @@ void resolveCombat(int playerChoice, int computerChoice, int& playerDamage, int&
     // PLAYER TAUNTS
     if (playerChoice == 7) {
         if (computerChoice >= 4 && computerChoice <= 6) {
-            // Computer is blocking - player heals!
             int healAmount = 20;
             playerHealth += healAmount;
-            if (playerHealth > 100) playerHealth = 100;  // Cap at 100
+            if (playerHealth > 100) playerHealth = 100;
             cout << "** Player taunts while Computer blocks! Player heals " << healAmount << " HP! **" << endl;
         } else if (computerChoice <= 3) {
-            // Computer is attacking - player takes reduced damage!
             computerUsedAttack = true;
-            if (computerChoice == 1) playerDamage = 30 - 5;  // High attack
-            else if (computerChoice == 2) playerDamage = 20 - 5;  // Medium attack
-            else if (computerChoice == 3) playerDamage = 10 - 5;  // Low attack
+            if (computerChoice == 1) playerDamage = 30 - 5;
+            else if (computerChoice == 2) playerDamage = 20 - 5;
+            else if (computerChoice == 3) playerDamage = 10 - 5;
             
-            // Apply computer's damage buff if they have one
             playerDamage += computerBuff;
-            
             cout << "** Player taunts but gets hit! Damage reduced by 5! **" << endl;
         }
     }
@@ -95,32 +144,27 @@ void resolveCombat(int playerChoice, int computerChoice, int& playerDamage, int&
     // COMPUTER TAUNTS
     if (computerChoice == 7) {
         if (playerChoice >= 4 && playerChoice <= 6) {
-            // Player is blocking - computer heals!
             int healAmount = 20;
             computerHealth += healAmount;
-            if (computerHealth > 100) computerHealth = 100;  // Cap at 100
+            if (computerHealth > 100) computerHealth = 100;
             cout << "** Computer taunts while Player blocks! Computer heals " << healAmount << " HP! **" << endl;
         } else if (playerChoice <= 3) {
-            // Player is attacking - computer takes reduced damage!
             playerUsedAttack = true;
-            if (playerChoice == 1) computerDamage = 30 - 5;  // High attack
-            else if (playerChoice == 2) computerDamage = 20 - 5;  // Medium attack
-            else if (playerChoice == 3) computerDamage = 10 - 5;  // Low attack
+            if (playerChoice == 1) computerDamage = 30 - 5;
+            else if (playerChoice == 2) computerDamage = 20 - 5;
+            else if (playerChoice == 3) computerDamage = 10 - 5;
             
-            // Apply player's damage buff if they have one
             computerDamage += playerBuff;
-            
             cout << "** Computer taunts but gets hit! Damage reduced by 5! **" << endl;
         }
     }
     
-    // PLAYER ATTACKS (not taunt), COMPUTER BLOCKS OR ATTACKS (not taunt)
-    if (playerChoice <= 3 && computerChoice != 7) {  // Player is attacking
+    // PLAYER ATTACKS, COMPUTER BLOCKS OR ATTACKS
+    if (playerChoice <= 3 && computerChoice != 7) {
         playerUsedAttack = true;
         
-        if (computerChoice <= 3) {  // Computer is also attacking
+        if (computerChoice <= 3) {
             computerUsedAttack = true;
-            // Both attack - both take damage!
             if (playerChoice == 1) computerDamage = 30;
             else if (playerChoice == 2) computerDamage = 20;
             else if (playerChoice == 3) computerDamage = 10;
@@ -129,55 +173,63 @@ void resolveCombat(int playerChoice, int computerChoice, int& playerDamage, int&
             else if (computerChoice == 2) playerDamage = 20;
             else if (computerChoice == 3) playerDamage = 10;
             
-            // Apply damage buffs
             computerDamage += playerBuff;
             playerDamage += computerBuff;
             
             cout << "** Both fighters attack! **" << endl;
-        } else {  // Computer is blocking
-            // Check if block is successful
-            if ((playerChoice == 1 && computerChoice == 6) ||
-                (playerChoice == 2 && computerChoice == 4) ||
-                (playerChoice == 3 && computerChoice == 5)) {
-                // Block failed! Player attack lands
+        } else {
+            // Check if computer's block fails
+            // High Block (4) fails to Low Attack (3)
+            // Medium Block (5) fails to High Attack (1)
+            // Low Block (6) fails to Medium Attack (2)
+            if ((computerChoice == 4 && playerChoice == 3) ||
+                (computerChoice == 5 && playerChoice == 1) ||
+                (computerChoice == 6 && playerChoice == 2)) {
                 if (playerChoice == 1) computerDamage = 30;
                 else if (playerChoice == 2) computerDamage = 20;
                 else if (playerChoice == 3) computerDamage = 10;
                 
-                // Apply player's damage buff
                 computerDamage += playerBuff;
-                
                 cout << "** Computer's block FAILED! Player's attack hits! **" << endl;
             } else {
-                // Block successful!
                 cout << "** Computer BLOCKED the attack! **" << endl;
             }
         }
     }
     
-    // PLAYER BLOCKS (not taunt), COMPUTER ATTACKS OR BLOCKS (not taunt)
-    if (playerChoice >= 4 && playerChoice <= 6 && computerChoice != 7) {  // Player is blocking
-        if (computerChoice <= 3) {  // Computer is attacking
+    // PLAYER BLOCKS, COMPUTER ATTACKS OR BLOCKS
+    if (playerChoice >= 4 && playerChoice <= 6 && computerChoice != 7) {
+        if (computerChoice <= 3) {
             computerUsedAttack = true;
             
-            // Check if player's block is successful
-            if ((computerChoice == 1 && playerChoice == 6) ||
-                (computerChoice == 2 && playerChoice == 4) ||
-                (computerChoice == 3 && playerChoice == 5)) {
-                // Block failed! Computer attack lands
+            // Check if player's block fails
+            // High Block (4) fails to Low Attack (3)
+            // Medium Block (5) fails to High Attack (1)
+            // Low Block (6) fails to Medium Attack (2)
+            if ((playerChoice == 4 && computerChoice == 3) ||
+                (playerChoice == 5 && computerChoice == 1) ||
+                (playerChoice == 6 && computerChoice == 2)) {
                 if (computerChoice == 1) playerDamage = 30;
                 else if (computerChoice == 2) playerDamage = 20;
                 else if (computerChoice == 3) playerDamage = 10;
                 
-                // Apply computer's damage buff
                 playerDamage += computerBuff;
-                
                 cout << "** Player's block FAILED! Computer's attack hits! **" << endl;
             } else {
-                // Block successful!
-                cout << "** Player BLOCKED the attack! **" << endl;
+                // Block was successful, but check for sword chip damage
+                if (opponentHasSword) {
+                    int chipDamage = 0;
+                    if (computerChoice == 1) chipDamage = 3;      // 10% of 30
+                    else if (computerChoice == 2) chipDamage = 2; // 10% of 20
+                    else if (computerChoice == 3) chipDamage = 1; // 10% of 10
+                    
+                    playerDamage = chipDamage;
+                    cout << "** Player BLOCKED the attack, but the SWORD chips through for " << chipDamage << " damage! **" << endl;
+                } else {
+                    cout << "** Player BLOCKED the attack! **" << endl;
+                }
             }
-        } else {  // Computer is also blocking
+        } else {
             cout << "** Both fighters are blocking! Nothing happens! **" << endl;
         }
     }
@@ -193,15 +245,13 @@ void resolveCombat(int playerChoice, int computerChoice, int& playerDamage, int&
     }
 }
 
-// Function to display current health
-void displayHealth(int playerHealth, int computerHealth) {
+void displayHealth(int playerHealth, int computerHealth, string opponentName) {
     cout << "\n--- HEALTH STATUS ---" << endl;
     cout << "Player HP: " << playerHealth << endl;
-    cout << "Computer HP: " << computerHealth << endl;
+    cout << opponentName << " HP: " << computerHealth << endl;
     cout << "---------------------" << endl;
 }
 
-// Function to display active buffs
 void displayBuffs(int playerBuff, int computerBuff) {
     if (playerBuff > 0 || computerBuff > 0) {
         cout << "--- ACTIVE BUFFS ---" << endl;
@@ -216,16 +266,15 @@ void displayBuffs(int playerBuff, int computerBuff) {
 }
 
 int main() {
-    // Seed random number generator
     srand(time(0));
     
     cout << "==================================" << endl;
     cout << "   WELCOME TO FIGHTER ARENA!   " << endl;
     cout << "==================================" << endl;
     cout << "\nFIGHT MECHANICS:" << endl;
-    cout << "- High Attack beats Low Block" << endl;
-    cout << "- Medium Attack beats High Block" << endl;
-    cout << "- Low Attack beats Medium Block" << endl;
+    cout << "- High Block: Blocks High + Medium, weak to Low" << endl;
+    cout << "- Medium Block: Blocks Medium + Low, weak to High" << endl;
+    cout << "- Low Block: Blocks Low + High, weak to Medium" << endl;
     cout << "- Wrong block = you take damage!" << endl;
     cout << "- Both attack = both take damage!" << endl;
     cout << "\nTAUNT MECHANICS:" << endl;
@@ -233,74 +282,89 @@ int main() {
     cout << "- Taunt vs Attack = -5 damage reduction!" << endl;
     cout << "- Both Taunt = +15 damage buff next attack!" << endl;
     
+    // Create array of opponents
+    const int NUM_OPPONENTS = 5;
+    Opponent opponents[NUM_OPPONENTS] = {
+        {"Rookie Ralph", 80, 40, 30, "A beginner fighter. Easy to beat!", false},
+        {"Balanced Bob", 100, 50, 50, "A well-rounded opponent. Fair challenge.", false},
+        {"Aggressive Anna", 90, 80, 35, "Attacks relentlessly! Watch out!", false},
+        {"Defensive Dan", 120, 25, 70, "Defensive master with high HP. Tricky!", false},
+        {"Sword Master Sasha", 110, 75, 60, "⚔️ BOSS: Wields a deadly sword that chips through blocks!", true}
+    };
+    
+    // Let player choose opponent
+    int opponentIndex = selectOpponent(opponents, NUM_OPPONENTS);
+    Opponent currentOpponent = opponents[opponentIndex];
+    
+    cout << "\n==================================" << endl;
+    cout << "You will fight: " << currentOpponent.name << "!" << endl;
+    if (currentOpponent.hasSword) {
+        cout << "⚔️ WARNING: This opponent has a SWORD!" << endl;
+        cout << "Even successful blocks take 10% chip damage!" << endl;
+    }
+    cout << "==================================" << endl;
+    
     // Game variables
     int playerHealth = 100;
-    int computerHealth = 100;
+    int computerHealth = currentOpponent.health;
     int playerChoice;
     int computerChoice;
     int playerDamage;
     int computerDamage;
-    int playerBuff = 0;  // Damage buff from taunting
-    int computerBuff = 0;  // Damage buff from taunting
+    int playerBuff = 0;
+    int computerBuff = 0;
     int roundNumber = 1;
     
-    // Main game loop - continues while both players have health
+    // Main game loop
     while (playerHealth > 0 && computerHealth > 0) {
         cout << "\n\n======== ROUND " << roundNumber << " ========" << endl;
-        displayHealth(playerHealth, computerHealth);
+        displayHealth(playerHealth, computerHealth, currentOpponent.name);
         displayBuffs(playerBuff, computerBuff);
         
-        // Get player's choice
         displayMenu();
         cin >> playerChoice;
         
-        // Validate input
         if (playerChoice < 1 || playerChoice > 7) {
             cout << "Invalid choice! Try again." << endl;
-            continue;  // Skip to next iteration
+            continue;
         }
         
-        // Get computer's choice
-        computerChoice = getComputerChoice();
+        // Get computer's choice based on opponent AI
+        computerChoice = getComputerChoice(currentOpponent, playerHealth, computerHealth);
         
-        // Show what each fighter chose
         cout << "\n--- BATTLE! ---" << endl;
         displayMove(playerChoice, "Player");
-        displayMove(computerChoice, "Computer");
+        displayMove(computerChoice, currentOpponent.name);
         
-        // Resolve the combat
         resolveCombat(playerChoice, computerChoice, playerDamage, computerDamage, 
-                     playerHealth, computerHealth, playerBuff, computerBuff);
+                     playerHealth, computerHealth, playerBuff, computerBuff, currentOpponent.hasSword);
         
-        // Apply damage
         playerHealth -= playerDamage;
         computerHealth -= computerDamage;
         
-        // Make sure health doesn't go below 0
         if (playerHealth < 0) playerHealth = 0;
         if (computerHealth < 0) computerHealth = 0;
         
-        // Show damage dealt
         if (playerDamage > 0) {
             cout << "Player takes " << playerDamage << " damage!" << endl;
         }
         if (computerDamage > 0) {
-            cout << "Computer takes " << computerDamage << " damage!" << endl;
+            cout << currentOpponent.name << " takes " << computerDamage << " damage!" << endl;
         }
         
         roundNumber++;
     }
     
-    // Game over - determine winner
+    // Game over
     cout << "\n\n==================================" << endl;
     cout << "         FIGHT OVER!          " << endl;
     cout << "==================================" << endl;
-    displayHealth(playerHealth, computerHealth);
+    displayHealth(playerHealth, computerHealth, currentOpponent.name);
     
     if (playerHealth > computerHealth) {
-        cout << "\n🏆 YOU WIN! VICTORY! 🏆" << endl;
+        cout << "\n🏆 YOU WIN! YOU DEFEATED " << currentOpponent.name << "! 🏆" << endl;
     } else {
-        cout << "\n💀 YOU LOSE! DEFEATED! 💀" << endl;
+        cout << "\n💀 YOU LOSE! " << currentOpponent.name << " WINS! 💀" << endl;
     }
     
     return 0;
