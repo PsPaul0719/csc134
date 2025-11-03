@@ -17,7 +17,7 @@ void execrise_1 () {
     int choice;
 
     cout << "You're low on energy. Would you like to rest?" << endl;
-    cout << "Yes or No"
+    cout << "Yes or No" << endl;
     cin >> choice;
 
     if (choice == Yes) {
@@ -28,4 +28,11 @@ void execrise_1 () {
         cout << "You have been restored." << endl;
     }
     }
+}
+
+int main () {
+
+    execrise_1;
+
+    return 0;
 }
