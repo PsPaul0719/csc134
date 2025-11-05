@@ -6,97 +6,110 @@ M5LAB2
 */
 
 #include <iostream>
-#include <string>
 using namespace std;
 
+// Declare (Write the prototypes for)
+// the getLength,
+// getWidth, getArea, and displayData
+// functions here.
+// The Declaration "promises" these functions will exist if called.
+
+// menu functions
 void menu_main();
 void menu_area();
 
-// Delcare (write the prototypes for)
-// getlength 
-// getwidth, getarea, and displayData
-// function
+// rectangle functions
+double getLength(); // get the length
+double getWidth();  // get the width
+double getArea(double length, double width);   // *calculate* the area 
+void   displayData(double length, double width, double area); // display the output
 
-double getlength();
-double getwidth();
-double getarea(double length, double width, double area);
-void    displayData(double length, double width, double area);
-
-int main() {
-
-    menu_main();
+int main()
+{
+    menu_area();
+    menu_main(); // start program      
     return 0;
 }
 
-
-
-double getlength(){
-    double length;
-    cout << "What is the length? ";
-    cin >> length;
-    return 0.0;
-}
-
-double getwidth() {
-    double width;
-    cout << "What is the width? " << endl;
-    cin >> width
-    return 0.0;
-
-}
-
-double getarea(double length, double width) {
-    double area;
-    area = length * width;
-    return 0.0;
-
-}
-
-void menu_area(){
-
-    // this program calculates the area of a rectangle 
-    // todo fix any syntax errors 
-
-    double length, width, area;
-
-    length = getlength();
-
-    width = getwidth();
-
-    area = getarea(length, width);
-
-    displayData(length, width, area);
-    return 0;
-}
-
+// MENU FUNCTIONS
+// menu functions
 void menu_main() {
-
+    // Main menu -- area, or quit.
     cout << "MAIN MENU" << endl;
     cout << "---------" << endl;
     cout << "1. Area of a rectangle" << endl;
     cout << "2. Exit" << endl;
     cout << endl;
-    cout << "Enter Choice: ";
-    int choice
-    cin >> choice:
+    cout << "Enter choice: ";
+    int choice;
+    cin >> choice;
 
     if (choice == 1) {
-        menu_area();
-        menu_main();
+       cout << "Enter area: ";
+       cin >> 
     }
-    else if (choice == 2){
-        cout << "Goodbye" << endl;
+    else if (choice == 2) {
+        cout << "Goodbye." << endl;
     }
     else {
-        cout << "Invalid choice." << endl; << endl;
-        cin.clear();
-
-        menu_main();
-    };
+        // invalid choice
+        cout << "Invalid choice." << endl << endl;
+        cin.clear(); // ignore the rest of the input
+        // Do it again
+        menu_main(); // This is called recursion
+    }
+}
+void menu_area() {
+    // Menu choice -- handles the area of a rectangle code. 
+    // This program calculates the area of a rectangle.
+	
+   double length,    // The rectangle's length
+          width,     // The rectangle's width
+          area;      // The rectangle's area
+          
+   // Get the rectangle's length.
+   length = getLength();
+   
+   // Get the rectangle's width.
+   width = getWidth();
+   
+   // Get the rectangle's area.
+   area = getArea(length, width);
+   
+   // Display the rectangle's data.
+   displayData(length, width, area);
 }
 
-void    displayData(double length, double width) {
-    cout << "Rectangle is " << length << " by " << width << "." endl;
+
+// RECTANGLE FUNCTIONS
+// Remember, the Definition is fulfilling the "promise" of the Declarations.
+
+//getLength - Asks the user to enter a rectangle's length, and return that value as a double.
+double getLength() {
+    double length;
+    cout << "What is the length? ";
+    cin >> length;
+    return length;
+}
+
+//getWidth - Asks the user to enter a rectangle's width, and return that value as a double.
+double getWidth() {
+    double width;
+    cout << "What is the width? ";
+    cin >> width;
+    return width;
+}
+
+//getArea - This function should take two arguments, length and width. It will calculate the area and return that value as a double.
+double getArea(double length, double width) {
+    double area;
+    area = length * width; // because area is *calculated* not input.
+    return area;
+}
+
+// displayData - Void function, simply outputs the values in a readable format.
+void displayData(double length, double width, double area) {
+    cout << "Rectangle is " << length << " by " << width << "." << endl;
     cout << "Area is: " << area << endl;
-    return 0;
- }
+    return; // for a void function, "return" is assumed at the end
+}
