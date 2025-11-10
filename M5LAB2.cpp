@@ -45,8 +45,8 @@ void menu_main() {
     cin >> choice;
 
     if (choice == 1) {
-       cout << "Enter area: ";
-       cin >> 
+       cout << "Enter area: " << endl;
+       cin >> getArea;
     }
     else if (choice == 2) {
         cout << "Goodbye." << endl;
