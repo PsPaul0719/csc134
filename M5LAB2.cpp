@@ -1,7 +1,7 @@
 /*
 CSC 134
 spencep
-11/3/25
+11/10/25
 M5LAB2
 */
 
@@ -45,8 +45,8 @@ void menu_main() {
     cin >> choice;
 
     if (choice == 1) {
-       cout << "Enter area: " << endl;
-       cin >> getArea;
+       menu_area();
+      
     }
     else if (choice == 2) {
         cout << "Goodbye." << endl;
