@@ -26,8 +26,10 @@ void   displayData(double length, double width, double area); // display the out
 
 int main()
 {
-    menu_area();
-    menu_main(); // start program      
+    menu_main(); // start program
+    
+          
+    
     return 0;
 }
 
