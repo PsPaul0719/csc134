@@ -266,7 +266,7 @@ void displayBuffs(int playerBuff, int computerBuff) {
 // Main fighting game function - returns true if player wins, false if player loses
 bool playFightingGame() {
     cout << "\n\n==================================" << endl;
-    cout << "   THE OLD MAN BEGINS TRAINING   " << endl;
+    cout << "   THE ELDER BEGINS HIS ATTACK   " << endl;
     cout << "==================================" << endl;
     cout << "\nFIGHT MECHANICS:" << endl;
     cout << "- High Block: Blocks High + Medium, weak to Low" << endl;
@@ -286,7 +286,7 @@ bool playFightingGame() {
         {"Ironhide the Mercenary", 100, 50, 50, "A seasoned sellsword. Balanced and deadly.", false},
         {"Bloodfang the Berserker", 90, 80, 35, "A savage fighter who attacks without mercy!", false},
         {"Stonewall the Guardian", 120, 25, 70, "An impenetrable fortress. High HP, masterful defense!", false},
-        {"Dreadlord Sabris", 110, 75, 60, "⚔️ BOSS: The tyrant's champion with a cursed blade!", true}
+        {"Dreadlord Sabris", 110, 75, 60, "⚔️ BOSS: A former champion with a cursed blade!", true}
     };
     
     // Let player choose opponent
@@ -384,6 +384,8 @@ void soTryingToSayImNotWorthy();
 void areYouTryingToCallMeACoward();
 void areYouTryingToGaslightMe();
 void iDontHaveAnySpareChange();
+void bringitOn();
+void youKnowWhat();
 void end();
 
 // Helper function to get user input
@@ -494,20 +496,19 @@ void iWouldButImNotAble() {
 void howCanYouHelpMe() {
     cout << "\n--- How Can You Help Me? ---\n";
     cout << "\"I can train you in the ancient art of combat,\" the old man says with a mysterious smile.\n";
-    cout << "\"But first, you must prove yourself worthy. Let us begin your training!\"\n\n";
+    cout << "\"But first, you must prove yourself worthy!\"\n\n";
     
-    cout << "The old man leads you to a training ground...\n";
+    cout << "The Elder summons a party of decesed warriors...\n";
     
     // THIS IS WHERE THE FIGHTING GAME STARTS!
     bool playerWon = playFightingGame();
     
     // After the fight, continue the story based on result
-    cout << "\n\n--- Back to the Story ---\n";
     
     if (playerWon) {
         cout << "The old man nods with approval.\n";
-        cout << "\"Impressive! You have the spirit of a true warrior. ";
-        cout << "With this training, you are ready to face the tyrannical ruler!\"\n\n";
+        cout << "\"Impressive! You have the spirit of a true warrior, yet have the strength of a small child. ";
+        cout << "Come with me, and we will see to your growth\"\n\n";
         cout << "You feel empowered and ready to challenge the tyrant...\n";
     } else {
         cout << "The old man shakes his head sadly.\n";
@@ -527,21 +528,72 @@ void soTryingToSayImNotWorthy() {
 
 void areYouTryingToCallMeACoward() {
     cout << "\n--- Are You Trying to Call Me a Coward? ---\n";
-    cout << "[PLACEHOLDER - This section needs to be written]\n\n";
-    end();
+    cout << "You felt insulted by the Elder's remark.\n\n";
+    cout << "\"Tis exactly what you are! Dare to prove otherwise!?\", the elder barked.\n";
+    
+    cout << "1. I don't Have any Spare change Unc!\n";
+    cout << "2. Are you trying to gaslight me!?\n";
+    int choice = getChoice(1, 2);
+    
+    if (choice == 1) {
+        iDontHaveAnySpareChange();
+    } else {
+        areYouTryingToGaslightMe();
+    }
 }
 
 void areYouTryingToGaslightMe() {
     cout << "\n--- Are You Trying to Gaslight Me? ---\n";
-    cout << "[PLACEHOLDER - This section needs to be written]\n\n";
-    end();
+    cout << "You confront the Elder about his disrepectful remarks.\n\n";
+    cout << "\"I am unaware of this 'gaslight' ability you speak of. Perhaps you would show me this ability in combat?\"\n";
+    
+    cout << "1. Bring it on, you old B***rd!\n";
+    cout << "2. You know what, you win.\n";
+    int choice = getChoice(1, 2);
+
+    if (choice == 1) {
+        bringitOn();
+    } else {
+        youKnowWhat();
+    }
 }
 
 void iDontHaveAnySpareChange() {
-    cout << "\n--- I Don't Have Any Spare Change ---\n";
+    cout << "\n--- I Don't Have Any Spare Change Unc!---\n";
     cout << "You told the Old Man you had no interest in whatever he spoke of. ";
     cout << "You closed and locked your door, wondering what the Old Man was babbling about. ";
     cout << "Meanwhile, he traveled to another house, wondering what you meant by 'unc'.\n\n";
+    end();
+}
+
+void bringitOn() {
+    cout << "\n--- Bring it on, you old B***rd! ---\n"; 
+    cout << "You brazenly challenge the Elder.\n";
+    cout << "\" As you wish.\", he says, as eire smile creeps across his face.\n";
+
+    cout << "The Elder summons a party of deceased warriors...\n";
+    
+    bool playerWon = playFightingGame();
+    
+    if (playerWon) {
+        cout << "The old man nods with approval.\n";
+        cout << "\"Impressive! You have the spirit of a true warrior, yet have the strength of a small child. ";
+        cout << "Come with me, and we will see to your growth\"\n\n";
+        cout << "You feel empowered and ready to challenge the tyrant...\n";
+    } else {
+        cout << "The old man shakes his head sadly.\n";
+        cout << "\"You fought bravely, but you are not yet ready. ";
+        cout << "Perhaps one day you will return when you have trained more.\"\n\n";
+        cout << "You limp home, defeated but wiser...\n";
+    }
+    
+    end();
+}
+
+
+void youKnowWhat() {
+    cout << "[PLACEHOLDER]";
+
     end();
 }
 
