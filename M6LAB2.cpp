@@ -31,7 +31,7 @@ enum Room {
 int main() {
     // Room names array
     string roomNames[NUM_ROOMS] = {
-        "Entrance Hall",
+        "Corridor",
         "Library",
         "Kitchen",
         "Garden",
@@ -40,7 +40,7 @@ int main() {
     
     // Room descriptions array
     string roomDescriptions[NUM_ROOMS] = {
-        "A grand entrance hall with a dusty chandelier hanging above.",
+        "The hall that holds the haunting memories of The Doctor's operations.",
         "Walls lined with ancient books. The air smells of old paper.",
         "A spacious kitchen with an old stove and wooden counter.",
         "An overgrown garden with stone pathways and a small fountain.",
