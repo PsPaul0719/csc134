@@ -9,6 +9,8 @@ M6LAB2
 #include <string>
 #include <vector>
 #include <map>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 // Define constants for directions
@@ -35,7 +37,83 @@ enum Room {
     NUM_ROOMS = 5
 };
 
+// Function that randomly selects a name from the list
+string getRandomName(const vector<string>& names) {
+    int randomIndex = rand() % names.size();
+    return names[randomIndex];
+}
+
+// Function to handle searching Room 299 for the key
+bool searchRoom299(const string& correctName) {
+    string action;
+    
+    cout << "\nYou notice something glinting in the corner of the room." << endl;
+    cout << "Would you like to search the room? (yes/no): ";
+    cin.ignore();
+    getline(cin, action);
+    
+    if (action == "yes" || action == "y") {
+        cout << "\nYou search the seemingly empty room carefully..." << endl;
+        cout << "You found a KEY with a name engraved on it!" << endl;
+        cout << "The name on the key is: " << correctName << endl;
+        return true;
+    }
+    
+    return false;
+}
+
+// Function to handle the name lock puzzle on the creature's cage
+bool handleNameLock(const string& correctName, bool hasKey) {
+    string enteredName;
+    string action;
+    
+    cout << "\n=== NAME LOCK SYSTEM ===" << endl;
+    cout << "One of the cages containing the hideous creature has a name-based lock." << endl;
+    cout << "What would you like to do?" << endl;
+    cout << "1. Try to unlock the cage" << endl;
+    cout << "2. Leave without trying" << endl;
+    cout << "\nEnter your choice (1 or 2): ";
+    cin.ignore();
+    getline(cin, action);
+    
+    // Unlock attempt
+    if (action == "1") {
+        cout << "\nEnter the name to unlock: ";
+        getline(cin, enteredName);
+        
+        // Check if the entered name matches the correct name
+        if (enteredName == correctName) {
+            cout << "\n*** Realeasing " << correctName<< ". ***" << endl;
+            cout << "The creature's cage opens with a click!" << endl;
+            cout << "The creature looks at you with gratitude before escaping..." << endl;
+            if (hasKey) {
+                cout << "Was freeing '" << correctName << "' really a good idea?"  << endl;
+            }
+            return true; // Successfully unlocked
+        } else {
+            cout << "\n*** ACCESS DENIED ***" << endl;
+            cout << "Incorrect name. The cage remains locked." << endl;
+            if (!hasKey) {
+                cout << "Perhaps there's a clue somewhere else in the building..." << endl;
+            }
+            return false; // Failed to unlock
+        }
+    }
+    
+    return false; // Didn't try to unlock
+}
+
 int main() {
+    // Seed the random number generator
+    srand(time(0));
+    
+    // Create a list of possible names for the lock
+    vector<string> nameList = {"Alice", "Bob", "Charlie", "Diana", "Edward", "Fiona"};
+    string correctName = getRandomName(nameList);
+    bool hasKey = false;
+    bool cageUnlocked = false;
+    bool searchedRoom299 = false;
+    
     // Room names array
     string roomNames[NUM_ROOMS] = {
         "Corridor",
@@ -105,6 +183,26 @@ int main() {
         // Display current room information
         cout << "\nYou are in the " << roomNames[currentRoom] << endl;
         cout << roomDescriptions[currentRoom] << endl;
+        
+        // Special interaction for Room 299 - searching for key
+        if (currentRoom == ROOM_299 && !searchedRoom299 && !hasKey) {
+            if (searchRoom299(correctName)) {
+                hasKey = true;
+                searchedRoom299 = true;
+            }
+        }
+        
+        // Special interaction for Room 304 - cage lock puzzle
+        if (currentRoom == ROOM_304 && !cageUnlocked) {
+            string cageAction;
+            cout << "\nYou notice the creature cage has a name lock on it." << endl;
+            cout << "Would you like to examine it? (yes/no): ";
+            cin >> cageAction;
+            
+            if (cageAction == "yes" || cageAction == "y") {
+                cageUnlocked = handleNameLock(correctName, hasKey);
+            }
+        }
         
         // Show available exits
         cout << "Exits: ";
